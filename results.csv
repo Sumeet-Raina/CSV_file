@@ -1,0 +1,15 @@
+require 'csv'
+
+results = CSV.read("query_result.csv")
+previous_user_id = ""
+output = []
+results.select do |result|
+  user_id = result[0]
+    if previous_user_id != user_id
+      output <<  result
+    else
+      puts "found duplicate"
+    end
+  previous_user_id = user_id
+end
+File.write("results.csv", output.map(&:to_csv).join)
